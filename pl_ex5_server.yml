@@ -16,7 +16,7 @@
         path: /srv/nfs
         state: directory
 
-    - name: copier fichier export
+    - name: configure export
       ansible.builtin.lineinfile:
         path: /etc/exports
         regexp: '^/srv/nfs '

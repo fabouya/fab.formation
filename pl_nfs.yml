@@ -1,0 +1,12 @@
+---
+- name: exo5 server
+  hosts: nfsserver
+  become: true
+  roles:
+    - setup.nfserver
+
+- name: exo5 client
+  hosts: nfsclient
+  become: true
+  roles:
+    - setup.nfsclient    

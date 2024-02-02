@@ -1,0 +1,25 @@
+---
+# tasks file for setup.nfsclient
+
+- name: Inclusion des variables
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"  
+
+- name: install le package nfs
+  ansible.builtin.package:
+    name: "{{ PKG }}"
+    state: present
+
+- name: creer srv nfs
+  ansible.builtin.file:
+    path: /srv/nfs
+    state: directory
+
+- name: Mount an NFS volume
+  ansible.posix.mount:
+    src: "{{ SERVER_IP }}:/srv/nfs"
+    path: /srv/nfs
+    opts: rw,sync,hard
+    state: mounted
+    fstype: nfs
+
+

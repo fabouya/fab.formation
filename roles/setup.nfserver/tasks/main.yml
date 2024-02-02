@@ -1,0 +1,22 @@
+---
+# tasks file for setup.nfserver
+
+- name: Inclusion des variables
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"  
+
+- name: install le package nfs
+  ansible.builtin.package:
+    name: "{{ PKG }}"
+    state: present
+
+- name: creer srv nfs
+  ansible.builtin.file:
+    path: /srv/nfs
+    state: directory
+
+- name: configure export
+  ansible.builtin.lineinfile:
+    path: /etc/exports
+    regexp: '^/srv/nfs '
+    line: /srv/nfs {{ NETWORK_MASK }}(rw)
+  notify: restart_nfs

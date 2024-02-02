@@ -10,16 +10,18 @@
         owner: root
         group: root
         mode: "u=rw,g=r,o=r"
-      notify: reset_rsyslog
-
-    - name: Test rsyslog
-      community.general.syslogger:
-        msg: 'test rsyslog'
-        facility: local4
-        priority: info
+      notify: 
+        - reset_rsyslog
+        - test_syslog
 
   handlers:
     - name: reset_rsyslog
       ansible.builtin.service:
         name: rsyslog
         state: restarted
+    - name: test_syslog
+      community.general.syslogger:
+        msg: 'test rsyslog'
+        facility: local4
+        priority: info
+

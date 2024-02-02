@@ -1,0 +1,31 @@
+---
+- name: exo5 server
+  hosts: nfsserver
+  become: true
+  tasks:
+    - name: Inclusion des variables
+      ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"  
+
+    - name: install le package nfs
+      ansible.builtin.package:
+        name: "{{ PKG }}"
+        state: present
+
+    - name: creer srv nfs
+      ansible.builtin.file:
+        path: /srv/nfs
+        state: directory
+
+    - name: copier fichier export
+      ansible.builtin.lineinfile:
+        path: /etc/exports
+        regexp: '^/srv/nfs '
+        line: /srv/nfs {{ NETWORK_MASK }}(rw)
+      notify: restart_nfs
+
+  handlers:
+    - name: restart_nfs
+      ansible.builtin.service:
+        name: nfs-server
+        state: restarted
+        enabled: true          

@@ -1,0 +1,19 @@
+---
+- name: exo4
+  hosts: test
+  become: true
+  tasks:
+    - name: copier le fichier
+      ansible.builtin.copy:
+        src: rsyslog.conf
+        dest:  /etc/rsyslog.d/30-test.conf
+        owner: root
+        group: root
+        mode: "u=rw,g=r,o=r"
+      notify: reset_rsyslog
+
+  handlers:
+    - name: reset_rsyslog
+      ansible.builtin.service:
+        name: rsyslog
+        state: restarted

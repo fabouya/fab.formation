@@ -1,0 +1,20 @@
+[test]
+d2-2-rbx-a-13	ansible_host=91.134.98.72
+d2-2-rbx-a-14	ansible_host=91.134.98.252
+
+[test:vars]
+ansible_ssh_extra_args='-o StrictHostKeyChecking=accept-new'
+
+[nfsserver]
+d2-2-rbx-a-13
+
+[nfsclient]
+d2-2-rbx-a-14
+
+[nfsserver:vars]
+NETWORK_MASK='91.134.98.0/24'
+
+[nfsclient:vars]
+SERVER_IP='91.134.98.72'
+
+

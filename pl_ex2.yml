@@ -1,0 +1,11 @@
+---
+- name: exo2
+  hosts: test
+  become: true
+  tasks:
+    - name: faire tar
+      community.general.archive:
+        path: /etc
+        dest: /tmp/etc.tar.gz
+        format: gz
+        force_archive: true

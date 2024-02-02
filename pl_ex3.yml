@@ -1,0 +1,20 @@
+---
+- name: exo3
+  hosts: test
+  become: true
+  tasks:
+    - name: creer user
+      ansible.builtin.user:
+        name: fab
+        comment: fab
+
+    - name: create cron
+      ansible.builtin.cron:
+        user: fab
+        name: "test cron"
+        hour: "{{ansible_date_time.hour}}"
+        day:  "{{ansible_date_time.day}}"
+        minute: "{{ansible_date_time.minute|int  + 1}}"
+        job: date >> /tmp/testcron.txt
+
+
